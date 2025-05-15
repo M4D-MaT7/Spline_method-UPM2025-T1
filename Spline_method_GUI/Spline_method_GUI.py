@@ -2,11 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import CheckButtons
 
-from Spline_method_^1 import Splines_grado_1
-from Spline_method_^2 import Splines_grado_2
-from Spline_method_^3 import Splines_grado_3
+from Spline_method_1 import Splines_lineal
+from Spline_method_2 import Spline_cuadratico
+from Spline_method_3 import Splines_grado_cubico_natural
 
-def update_graph(label, ax_graph, function, check_buttons, x, f_values):
+def update_graph(label, ax_graph, function, check_buttons, x_values, f_values):
     
     ax_graph.clear()
     ax_graph.plot(x, function(x), label="Función Real")
@@ -20,15 +20,15 @@ def update_graph(label, ax_graph, function, check_buttons, x, f_values):
 
             if lbl.get_text() == "Spline de Grado 1": # Si el botón de Spline de Grado 1 está activado, se graficará la función correspondiente.
 
-                ax_graph.plot(x, Splines_grado_1(f_values), label="Spline de Grado 1")
+                ax_graph.plot(x, Splines_lineal(x_values, f_values), label="Spline de Grado 1")
 
             elif lbl.get_text() == "Spline de Grado 2": # Si el botón de Spline de Grado 2 está activado, se graficará la función correspondiente.
 
-                ax_graph.plot(x, Splines_grado_2(f_values), label="Spline de Grado 2")
+                ax_graph.plot(x, Spline_cuadratico(x_values, f_values), label="Spline de Grado 2")
 
             elif lbl.get_text() == "Spline de Grado 3": # Si el botón de Spline de Grado 3 está activado, se graficará la función correspondiente.
 
-                ax_graph.plot(x, Splines_grado_3(f_values), label="Spline de Grado 3")
+                ax_graph.plot(x, Splines_grado_cubico_natural(x_values, f_values), label="Spline de Grado 3")
 
     ax_graph.legend()
 
@@ -38,7 +38,9 @@ def update_graph(label, ax_graph, function, check_buttons, x, f_values):
 
 def Generate_Spline_GUI(function):
 
-    f_values = function(np.random.uniform(-10,10,7)) # Genera 7 puntos aleatorios entre -10 y 10 para la función dada. 
+    x_values = np.random.uniform(-10, 10, 7) # Genera 7 puntos aleatorios entre -10 y 10 para la función dada.
+    f_values = function(x_values) # Genera 7 puntos aleatorios entre -10 y 10 para la función dada.
+
     option_list = ["Spline de Grado 1", "Spline de Grado 2", "Spline de Grado 3"]
 
     fig = plt.figure(figsize=(12, 6))
@@ -55,7 +57,7 @@ def Generate_Spline_GUI(function):
     check_ax = fig.add_axes([0.7, 0.4, 0.15, 0.2])  # [left, bottom, width, height]
     check_buttons = CheckButtons(check_ax, option_list, [False]*len(option_list))
 
-    check_buttons.on_clicked(lambda label: update_graph(label, ax_graph, function, check_buttons, x, f_values))
+    check_buttons.on_clicked(lambda label: update_graph(label, ax_graph, function, check_buttons, x_values, f_values))
 
     plt.tight_layout()
     plt.show()
