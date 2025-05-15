@@ -7,6 +7,7 @@ from Spline_method_2 import Spline_cuadratico
 from Spline_method_3 import Splines_grado_cubico_natural
 
 def update_graph(label, ax_graph, function, check_buttons, x_eval, x_values, f_values):
+
     ax_graph.clear()
     ax_graph.plot(x_eval, function(x_eval), label="Función Real", color='black')
 
@@ -14,22 +15,30 @@ def update_graph(label, ax_graph, function, check_buttons, x_eval, x_values, f_v
     states = check_buttons.get_status()
 
     for lbl, active in zip(labels, states):
+
         if active:
+
             if lbl.get_text() == "Spline de Grado 1":
+
                 x_spline, y_spline = Splines_lineal(x_values, f_values)
-                ax_graph.plot(x_spline, y_spline, label="Spline de Grado 1")
+                ax_graph.plot(x_spline, y_spline, label="Spline de Grado 1", color='red')
+
             elif lbl.get_text() == "Spline de Grado 2":
+                
                 x_spline, y_spline = Spline_cuadratico(x_values, f_values)
-                ax_graph.plot(x_spline, y_spline, label="Spline de Grado 2")
+                ax_graph.plot(x_spline, y_spline, label="Spline de Grado 2", color='brown')
+
             elif lbl.get_text() == "Spline de Grado 3":
+
                 x_spline, y_spline = Splines_grado_cubico_natural(x_values, f_values)
-                ax_graph.plot(x_spline, y_spline, label="Spline de Grado 3")
+                ax_graph.plot(x_spline, y_spline, label="Spline de Grado 3", color='green')
 
     ax_graph.scatter(x_values, f_values, color='red', label="Datos")
-    ax_graph.legend()
+    ax_graph.legend(loc='lower right')
     plt.draw()
 
 def Generate_Spline_GUI(function):
+
     x_values = np.random.uniform(-10, 10, 50)
     x_values.sort()
     f_values = function(x_values)
@@ -41,12 +50,10 @@ def Generate_Spline_GUI(function):
     fig = plt.figure(figsize=(14, 8))
     grid = fig.add_gridspec(2, 3, width_ratios=[2, 1, 0.1], height_ratios=[1, 1])
 
-    # Gráfico principal
     ax_graph = fig.add_subplot(grid[:, 0])
     ax_graph.plot(x_eval, function(x_eval), label="Función Real", color='black')
     ax_graph.scatter(x_values, f_values, color='red', label="Datos")
 
-    # Panel superior derecho (CheckButtons)
     ax_side_top = fig.add_subplot(grid[0, 1])
     ax_side_top.set_title("Método Spline")
     ax_side_top.axis('off')
