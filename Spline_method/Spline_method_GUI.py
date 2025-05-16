@@ -85,7 +85,6 @@ def Generate_Spline_GUI(function):
     slider.on_changed(on_slider_change)
     check_buttons.on_clicked(lambda label: update_graph(label, ax_graph, function, check_buttons, x_eval, data_state))
 
-    # Caja de texto superpuesta libre
     text_info = (
         "Los métodos de spline son técnicas de interpolación\n"
         "que utilizan funciones polinómicas por tramos para\n"
@@ -100,11 +99,12 @@ def Generate_Spline_GUI(function):
     textbox = TextArea(text_info, textprops=dict(color='black', fontsize=10))
     floating_box = AnnotationBbox(
         textbox,
-        (0.668, 0.44),  # Posición relativa a la figura (x, y)
+        (0.668, 0.44),
         xycoords='figure fraction',
         box_alignment=(0, 1),
         frameon=False
     )
+    
     fig.add_artist(floating_box)
 
     plt.tight_layout()
