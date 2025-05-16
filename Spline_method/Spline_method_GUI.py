@@ -24,7 +24,7 @@ def update_graph(label, ax_graph, function, check_buttons, x_eval, x_values, f_v
                 ax_graph.plot(x_spline, y_spline, label="Spline de Grado 1", color='red')
 
             elif lbl.get_text() == "Spline de Grado 2":
-                
+
                 x_spline, y_spline = Spline_cuadratico(x_values, f_values)
                 ax_graph.plot(x_spline, y_spline, label="Spline de Grado 2", color='brown')
 
@@ -35,6 +35,7 @@ def update_graph(label, ax_graph, function, check_buttons, x_eval, x_values, f_v
 
     ax_graph.scatter(x_values, f_values, color='red', label="Datos")
     ax_graph.legend(loc='lower right')
+
     plt.draw()
 
 def Generate_Spline_GUI(function):
@@ -44,7 +45,6 @@ def Generate_Spline_GUI(function):
     f_values = function(x_values)
 
     x_eval = np.linspace(x_values[0], x_values[-1], 300)
-
     option_list = ["Spline de Grado 1", "Spline de Grado 2", "Spline de Grado 3"]
 
     fig = plt.figure(figsize=(14, 8))
@@ -54,16 +54,17 @@ def Generate_Spline_GUI(function):
     ax_graph.plot(x_eval, function(x_eval), label="Función Real", color='black')
     ax_graph.scatter(x_values, f_values, color='red', label="Datos")
 
-    ax_side_top = fig.add_subplot(grid[0, 1])
-    ax_side_top.set_title("Método Spline")
-    ax_side_top.axis('off')
-
-    check_ax = fig.add_axes([0.72, 0.55, 0.2, 0.3])
+    check_ax = fig.add_axes([0.71, 0.55, 0.2, 0.3])
+    check_ax.text(0.45, 1.1, "Método Spline", ha='center', va='bottom', fontsize=20, fontweight='bold', color='black', transform=check_ax.transAxes)
     for spine in check_ax.spines.values():
-       spine.set_visible(False)
+        spine.set_visible(False)
     check_buttons = CheckButtons(check_ax, option_list, [False]*len(option_list))
-
     check_buttons.on_clicked(lambda label: update_graph(label, ax_graph, function, check_buttons, x_eval, x_values, f_values))
+
+    ax_note = fig.add_subplot(grid[1, 1])
+    ax_note.set_facecolor((0.5, 0.5, 0.5, 0.3))
+    ax_note.set_xticks([])
+    ax_note.set_yticks([])
 
     plt.tight_layout()
     plt.show()
